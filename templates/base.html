@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+  integrity="sha384-xOolHFLEh07PJGoPkLv1I6u2LwYlH9PcVx1Krp3yMIR2PGxZhJQktlPEnxe1M"
+  crossorigin="anonymous"
+>
+  <title>{% block title %}Newark IT Store{% endblock %}</title>
+  <style>
+     .filter-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+  .filter-bar form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .filter-bar .form-group {
+    margin-right: 0.75rem;
+    margin-bottom: 0;
+  }
+  .filter-bar .btn {
+    margin-bottom: 0;
+  }
+    
+    body { font-family: Arial, sans-serif; margin: 0; background: #f0f2f5;
+      background: url('/static/bg.png') center center / cover no-repeat; }
+    header {
+      background: #fff;
+      padding: 1rem 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    header h1 { margin: 0; font-size: 2rem; color: #333; }
+    nav {
+      background: #333;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    nav a {
+      display: inline-block;
+      color: #fff;
+      text-decoration: none;
+      margin: 0.5rem 1rem;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+    nav a:hover { background: #555; }
+    .container { padding: 1.5rem; max-width: 1000px; margin: auto; }
+    .btn {
+      background: #007bff; color: #fff; border: none;
+      padding: 0.4rem 0.8rem; border-radius: 4px;
+      cursor: pointer; transition: background 0.2s;
+      text-decoration: none;
+    }
+    .btn:hover { background: #0056b3; }
+    table {
+      width: 100%; border-collapse: collapse; margin-top: 1rem;
+    }
+    table, th, td { border: 1px solid #ccc; }
+    th, td { padding: 0.5rem; text-align: left; }
+  </style>
+  {% block head_extra %}{% endblock %}
+</head>
+<body>
+  <header>
+    <h1>Newark IT Store</h1>
+  </header>
+
+  {% block navbar %}
+  <nav>
+    <a href="/">Dashboard</a>
+    <a href="/customers">Customers</a>
+    <a href="/cards">Credit Cards</a>
+    <a href="/addresses">Addresses</a>
+    <a href="/baskets">Baskets</a>
+    <a href="/transactions">Transactions</a>
+    <a href="/statistics">Statistics</a>
+  </nav>
+  {% endblock %}
+
+  <div class="container">
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>

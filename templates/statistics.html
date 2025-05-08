@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block title %}Statistics – Newark IT Store{% endblock %}
+
+{% block head_extra %}
+  <style>
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      padding: 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .stats-grid .card {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    }
+    .stats-grid .card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      border-color: #007bff;
+    }
+    .stats-grid .card h2 {
+      color: #007bff;
+    }
+    .page-title {
+      text-align: center;
+      margin: 2rem 0 1rem;
+      font-size: 2.25rem;
+      color: #333;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <h1 class="page-title">Sales Statistics</h1>
+  <div class="stats-grid">
+    <a href="{{ url_for('stat_creditcard') }}" class="card">
+      <h2>Total per Card</h2>
+      <p>Compute the total amount charged per credit card</p>
+    </a>
+    <a href="{{ url_for('stat_topcustomers') }}" class="card">
+      <h2>Top 10 Customers</h2>
+      <p>Best customers by money spent</p>
+    </a>
+    <a href="{{ url_for('stat_freqproducts') }}" class="card">
+      <h2>Freq. Products</h2>
+      <p>Most frequently sold products</p>
+    </a>
+    <a href="{{ url_for('stat_distinctbuyers') }}" class="card">
+      <h2>Distinct Buyers</h2>
+      <p>Products sold to most distinct customers</p>
+    </a>
+    <a href="{{ url_for('stat_maxbasket') }}" class="card">
+      <h2>Max Basket</h2>
+      <p>Max basket total per credit card</p>
+    </a>
+    <a href="{{ url_for('stat_avgprice') }}" class="card">
+      <h2>Avg Price</h2>
+      <p>Average selling price by product type</p>
+    </a>
+  </div>
+{% endblock %}

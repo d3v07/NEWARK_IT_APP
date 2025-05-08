@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Customer {{ cid }} — Transaction History{% endblock %}
+
+{% block content %}
+  <h1>Transaction History for Customer {{ cid }}</h1>
+  <a href="{{ url_for('list_customers') }}" class="btn btn-secondary mb-3">
+    ← Back to Customers
+  </a>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Basket ID</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th>Total</th>
+        <th>Ship Label</th>
+        <th>Card #</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for t in transactions %}
+      <tr>
+        <td>{{ t.BID }}</td>
+        <td>{{ t.TDate }}</td>
+        <td>{{ t.TTag }}</td>
+        <td>{{ '%.2f'|format(t.TotalAmount) }}</td>
+        <td>{{ t.SAName }}</td>
+        <td>{{ t.CCNumber }}</td>
+      </tr>
+    {% else %}
+      <tr><td colspan="6" class="text-center">No transactions found</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

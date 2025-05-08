@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Credit Card – Newark IT{% endblock %}
+
+{% block content %}
+  <h1>Edit Credit Card {{ card.CCNumber }}</h1>
+
+  <form method="post">
+    <div class="form-group">
+      <label>Card Number</label>
+      <input type="text" name="ccnumber"
+             value="{{ card.CCNumber }}"
+             class="form-control"
+             readonly>
+    </div>
+
+    <div class="form-group">
+      <label>Security Number</label>
+      <input type="text" name="secnumber"
+             value="{{ card.SecNumber }}"
+             class="form-control" required>
+    </div>
+
+    <div class="form-group">
+      <label>Owner Name</label>
+      <input type="text" name="ownername"
+             value="{{ card.OwnerName }}"
+             class="form-control" required>
+    </div>
+
+    <div class="form-group">
+      <label>Card Type</label>
+      <input type="text" name="cctype"
+             value="{{ card.CCType }}"
+             class="form-control" required>
+    </div>
+
+    <div class="form-group">
+      <label>Billing Address</label>
+      <input type="text" name="billingaddr"
+             value="{{ card.BillingAddress }}"
+             class="form-control" required>
+    </div>
+
+    <div class="form-group">
+      <label>Expiry Date</label>
+      <input type="date" name="expdate"
+             value="{{ card.ExpDate }}"
+             class="form-control" required>
+    </div>
+
+    <div class="form-group">
+      <label>Assign to Customer (optional)</label>
+      <select name="cid" class="form-control">
+        <option value="">-- none --</option>
+        {% for c in customers %}
+          <option value="{{ c.CID }}"
+            {% if c.CID == card.StoredCardCID %}selected{% endif %}>
+            {{ c.CID }} – {{ c.FName }} {{ c.LName }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a href="{{ url_for('list_cards') }}" class="btn btn-secondary">Cancel</a>
+  </form>
+{% endblock %}

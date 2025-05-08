@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Edit Item – Basket {{bid}}{% endblock %}
+{% block content %}
+  <h1>Edit {{item.PName}} in Basket #{{bid}}</h1>
+  <form method="post">
+    <label>
+      New quantity:
+      <input type="number" name="quantity"
+             min="1" value="{{item.Quantity}}" required>
+    </label>
+    <button type="submit">Update</button>
+    <a href="{{ url_for('view_basket', bid=bid) }}">Cancel</a>
+  </form>
+{% endblock %}

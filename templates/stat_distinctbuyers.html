@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Distinct Buyers – Newark IT Store{% endblock %}
+
+{% block content %}
+  <h1>Products with Most Distinct Buyers</h1>
+
+  <!-- Date-range filter form -->
+  <form method="get" class="filter-form" style="margin-bottom:1rem;">
+    <label>From:
+      <input type="date" name="start_date" value="{{ filters.start }}">
+    </label>
+    <label>To:
+      <input type="date" name="end_date" value="{{ filters.end }}">
+    </label>
+    <button type="submit" class="btn">Apply</button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Product ID</th>
+        <th>Name</th>
+        <th>Distinct Buyers</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in results %}
+      <tr>
+        <td>{{ r.PID }}</td>
+        <td>{{ r.PName }}</td>
+        <td>{{ r.distinct_buyers }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

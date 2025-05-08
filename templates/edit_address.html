@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Edit Address – Newark IT Store{% endblock %}
+{% block content %}
+  <h1>Edit Address for Customer {{ address.CID }} – {{ address.SAName }}</h1>
+  <form action="{{ url_for('edit_address', cid=address.CID, saname=address.SAName) }}" method="post">
+    <label>Street:<br/>
+      <input type="text" name="street" value="{{ address.Street }}" required />
+    </label><br/>
+    <label>Number:<br/>
+      <input type="text" name="snumber" value="{{ address.SNumber }}" required />
+    </label><br/>
+    <label>City:<br/>
+      <input type="text" name="city" value="{{ address.City }}" required />
+    </label><br/>
+    <label>ZIP:<br/>
+      <input type="text" name="zip" value="{{ address.Zip }}" required />
+    </label><br/>
+    <label>State:<br/>
+      <input type="text" name="state" value="{{ address.State }}" required />
+    </label><br/>
+    <label>Country:<br/>
+      <input type="text" name="country" value="{{ address.Country }}" required />
+    </label><br/>
+    <label>Recipient Name:<br/>
+      <input type="text" name="recipient" value="{{ address.RecepientName }}" required />
+    </label><br/>
+    <button type="submit" class="btn">Save Changes</button>
+  </form>
+{% endblock %}

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}New Credit Card – Newark IT{% endblock %}
+
+{% block content %}
+  <h1>New Credit Card</h1>
+  <form method="post">
+    <p>
+      <label>Card Number<br>
+        <input type="text" name="ccnumber" required>
+      </label>
+    </p>
+    <p>
+      <label>Security Number<br>
+        <input type="text" name="secnumber" required>
+      </label>
+    </p>
+    <p>
+      <label>Owner Name<br>
+        <input type="text" name="ownername" required>
+      </label>
+    </p>
+    <p>
+      <label>Card Type<br>
+        <input type="text" name="cctype" required>
+      </label>
+    </p>
+    <p>
+      <label>Billing Address<br>
+        <input type="text" name="billingaddr" required>
+      </label>
+    </p>
+    <p>
+      <label>Expiry Date<br>
+        <input type="date" name="expdate" required>
+      </label>
+    </p>
+    <p>
+      <label>Assign to Customer (optional)<br>
+        <select name="storedcid">
+          <option value="">— none —</option>
+          {% for cust in customers %}
+            <option value="{{ cust.CID }}">{{ cust.fullname }} ({{ cust.CID }})</option>
+          {% endfor %}
+        </select>
+      </label>
+    </p>
+    <p>
+      <button type="submit" class="btn btn-primary">Create</button>
+      <a href="{{ url_for('list_cards') }}" class="btn">Cancel</a>
+    </p>
+  </form>
+{% endblock %}

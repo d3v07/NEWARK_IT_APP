@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}Basket {{ bid }} Items – Newark IT Store{% endblock %}
+{% block content %}
+  <h1>Items in Basket {{ bid }}</h1>
+  <button class="btn" onclick="location.href='{{ url_for('new_item', bid=bid) }}'">Add Item</button>
+  <table>
+    <thead>
+      <tr><th>Product ID</th><th>Name</th><th>Quantity</th><th>Price Sold</th></tr>
+    </thead>
+    <tbody>
+      {% for it in items %}
+      <tr>
+        <td>{{ it.PID }}</td>
+        <td>{{ it.PName }}</td>
+        <td>{{ it.Quantity }}</td>
+        <td>{{ it.PriceSold }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

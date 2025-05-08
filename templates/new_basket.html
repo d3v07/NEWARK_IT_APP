@@ -1,0 +1,26 @@
+{# -- templates/new_basket.html -- #}
+{% extends 'base.html' %}
+{% block title %}Create a New Basket{% endblock %}
+
+{% block content %}
+  <h1>Create a New Basket</h1>
+
+  <form method="post" action="{{ url_for('new_basket') }}">
+    <p>
+      <label for="cid">Customer:</label>
+      <select name="cid" id="cid" required>
+        <option value="">-- Select Customer --</option>
+        {% for c in customers %}
+          <option value="{{ c.CID }}">
+            {{ c.CID }} – {{ c.FName }} {{ c.LName }}
+          </option>
+        {% endfor %}
+      </select>
+    </p>
+
+    <p>
+      <button type="submit">Create</button>
+      <a href="{{ url_for('list_baskets') }}">Cancel</a>
+    </p>
+  </form>
+{% endblock %}

@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Newark IT Store</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0; padding: 0;
+      background: #f0f2f5;
+      background-image: url('/static/store.png');
+      background-position: center;
+      background-repeat: repeat;
+      background-size: cover;
+
+    }
+    header {
+      background: #fff;
+      padding: 2rem 0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;       /* bigger */
+      color: #333;
+    }
+    .grid {
+  display: grid;
+  /* force each card to be at least 300px wide, scaling up to fill */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: auto;
+}
+@media (max-width: 800px) {
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+}
+@media (max-width: 500px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 2rem;           /* more padding for a bigger “block” feel */
+  min-height: 200px;       /* ensure a taller card */
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.card h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.5rem;       /* slightly larger heading */
+  color: #007bff;
+}
+.card p {
+  margin: 0;
+  color: #555;
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <h1>NEWARK IT STORE DASHBOARD</h1>
+  </header>
+  <div class="grid">
+    <a href="/customers" class="card">
+      <h2>CUSTOMERS</h2>
+      <p>Manage customers (list/add/edit/delete)</p>
+    </a>
+    <a href="/cards" class="card">
+      <h2>CREDIT CARDS</h2>
+      <p>Manage credit cards</p>
+    </a>
+    <a href="/addresses" class="card">
+      <h2>SHIPPING ADDRESS</h2>
+      <p>Manage shipping addresses</p>
+    </a>
+    <a href="/baskets" class="card">
+      <h2>BASKETS</h2>
+      <p>View & manage shopping baskets</p>
+    </a>
+    <a href="/transactions" class="card">
+      <h2>TRANSACTIONS</h2>
+      <p>Order history & status</p>
+    </a>
+    <a href="/statistics" class="card">
+      <h2>STATISTICS</h2>
+      <p>Sales analytics & reports</p>
+    </a>
+  </div>
+</body>
+</html>

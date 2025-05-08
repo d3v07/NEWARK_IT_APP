@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Max Basket per Card – Newark IT Store{% endblock %}
+
+{% block content %}
+  <h1>Maximum Basket Total per Credit Card</h1>
+
+  <!-- Date-range filter form -->
+  <form method="get" class="filter-form" style="margin-bottom:1rem;">
+    <label>From:
+      <input type="date" name="start_date" value="{{ filters.start }}">
+    </label>
+    <label>To:
+      <input type="date" name="end_date" value="{{ filters.end }}">
+    </label>
+    <button type="submit" class="btn">Apply</button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Card Number</th>
+        <th>Max Basket Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in results %}
+      <tr>
+        <td>{{ r.CCNumber }}</td>
+        <td>{{ "%.2f"|format(r.max_basket) }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

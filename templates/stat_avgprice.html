@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}Avg Price by Type – Newark IT Store{% endblock %}
+
+{% block content %}
+  <h1>Average Selling Price per Product Type</h1>
+
+  <!-- Date-range filter form -->
+  <form method="get" class="filter-form" style="margin-bottom:1rem;">
+    <label>From:
+      <input type="date" name="start_date" value="{{ filters.start }}">
+    </label>
+    <label>To:
+      <input type="date" name="end_date" value="{{ filters.end }}">
+    </label>
+    <button type="submit" class="btn">Apply</button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Product Type</th>
+        <th>Average Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in results %}
+      <tr>
+        <td>{{ r.PType }}</td>
+        <td>{{ "%.2f"|format(r.avg_price) }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

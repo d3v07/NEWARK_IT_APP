@@ -1,0 +1,65 @@
+{# templates/customers.html #}
+{% extends 'base.html' %}
+
+{% block title %}All Customers – Newark IT{% endblock %}
+
+{% block content %}
+  <h1>All Customers</h1>
+
+  <a href="{{ url_for('new_customer') }}" class="btn btn-primary mb-3">
+    + Add New Customer
+  </a>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in customers %}
+      <tr>
+        <td>{{ c.CID }}</td>
+        <td>{{ c.FName }}</td>
+        <td>{{ c.LName }}</td>
+        <td>{{ c.Email }}</td>
+        <td>
+          <div style="display:flex; gap:0.25rem; align-items:center;">
+            <!-- Edit -->
+            <a href="{{ url_for('edit_customer', cid=c.CID) }}"
+               class="btn btn-sm btn-secondary">
+              Edit
+            </a>
+
+            <!-- Delete -->
+            <form action="{{ url_for('delete_customer', cid=c.CID) }}"
+                  method="post" style="margin:0;">
+              <button type="submit"
+                      class="btn btn-sm btn-danger"
+                      onclick="return confirm('Delete customer {{c.CID}}?');">
+                Delete
+              </button>
+            </form>
+
+            <!-- History -->
+            <a href="{{ url_for('customer_history', cid=c.CID) }}"
+               class="btn btn-sm btn-info">
+              History
+            </a>
+          </div>
+        </td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="8" class="text-center">
+          No customers found.
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

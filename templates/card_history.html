@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}History for {{ card_number }} – Newark IT{% endblock %}
+
+{% block content %}
+  <h1>Transaction History for Card {{ card_number }}</h1>
+  <a href="{{ url_for('list_cards') }}" class="btn btn-secondary mb-3">
+    ← Back to Cards
+  </a>
+
+  {% if transactions %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Basket ID</th>
+          <th>Customer</th>
+          <th>Ship Label</th>
+          <th>Date</th>
+          <th>Status</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for t in transactions %}
+        <tr>
+          <td>{{ t.BID }}</td>
+          <td>{{ t.CustomerName }}</td>
+          <td>{{ t.SAName }}</td>
+          <td>{{ t.TDate }}</td>
+          <td>{{ t.TTag }}</td>
+          <td>${{ '%.2f'|format(t.TotalAmount) }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No transactions found for this card.</p>
+  {% endif %}
+{% endblock %}

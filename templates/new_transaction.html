@@ -1,0 +1,118 @@
+{# templates/new_transaction.html #}
+{% extends 'base.html' %}
+
+{% block title %}Place Order – Newark IT{% endblock %}
+
+{% block content %}
+  <h1>Place Order</h1>
+
+  <form method="post">
+    <!-- Basket selector -->
+    <div class="form-group">
+      <label for="bid">Basket #</label>
+      <select name="bid" id="bid" class="form-control" required>
+        {% for b in baskets %}
+          <option value="{{ b.BID }}"
+                  {% if b.BID|string == selected_bid %} selected {% endif %}>
+            {{ b.BID }} (Customer {{ b.CID }})
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Shipping address -->
+    <div class="form-group">
+      <label for="saname">Shipping Address</label>
+      <select name="saname" id="saname" class="form-control" required>
+        {% for a in addresses %}
+          <option value="{{ a.SAName }}">{{ a.SAName }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Card selector -->
+    <div class="form-group">
+      <label>Use stored card?</label>
+      <div>
+        <label class="radio-inline">
+          <input type="radio" name="card_option" value="stored" checked>
+          Stored
+        </label>
+        <label class="radio-inline ml-3">
+          <input type="radio" name="card_option" value="new">
+          New
+        </label>
+      </div>
+    </div>
+
+    <!-- Stored card dropdown -->
+    <div id="stored-card-div" class="form-group">
+      <label for="ccnumber">Credit Card</label>
+      <select name="ccnumber" id="ccnumber" class="form-control">
+        {% for c in cards %}
+          <option value="{{ c.CCNumber }}">
+            {{ c.CCNumber }} &mdash; {{ c.CCType }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- New card fields (hidden until “new” is chosen) -->
+    <div id="new-card-fields" style="display:none;">
+      <div class="form-group">
+        <label for="new_ccnumber">Card #</label>
+        <input type="text" class="form-control" id="new_ccnumber"
+               name="new_ccnumber" maxlength="16">
+      </div>
+      <div class="form-group">
+        <label for="new_secnumber">Security Code</label>
+        <input type="text" class="form-control" id="new_secnumber"
+               name="new_secnumber" maxlength="4">
+      </div>
+      <div class="form-group">
+        <label for="new_ownername">Owner Name</label>
+        <input type="text" class="form-control" id="new_ownername"
+               name="new_ownername">
+      </div>
+      <div class="form-group">
+        <label for="new_cctype">Card Type</label>
+        <input type="text" class="form-control" id="new_cctype"
+               name="new_cctype">
+      </div>
+      <div class="form-group">
+        <label for="new_billingaddr">Billing Address</label>
+        <input type="text" class="form-control" id="new_billingaddr"
+               name="new_billingaddr">
+      </div>
+      <div class="form-group">
+        <label for="new_expdate">Expiry Date</label>
+        <input type="date" class="form-control" id="new_expdate"
+               name="new_expdate">
+      </div>
+    </div>
+
+    <!-- Status radio -->
+    <div class="form-group">
+      <label for="ttag">Delivery Status</label>
+      <select name="ttag" id="ttag" class="form-control">
+        <option value="delivered">Delivered</option>
+        <option value="not-delivered">Not delivered</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+      Place Order
+    </button>
+  </form>
+
+  <script>
+    // Show/hide new-card fields
+    document.querySelectorAll('input[name="card_option"]').forEach(radio => {
+      radio.addEventListener('change', () => {
+        const useNew = document.querySelector('input[name="card_option"]:checked').value === 'new';
+        document.getElementById('new-card-fields').style.display = useNew ? 'block' : 'none';
+        document.getElementById('stored-card-div').style.display = useNew ? 'none' : 'block';
+      });
+    });
+  </script>
+{% endblock %}

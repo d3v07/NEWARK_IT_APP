@@ -1,0 +1,76 @@
+{# templates/cards.html #}
+{% extends 'base.html' %}
+
+{% block title %}Credit Cards – Newark IT{% endblock %}
+
+{% block content %}
+  <h1>Credit Cards</h1>
+
+  <a href="{{ url_for('new_card') }}" class="btn btn-primary mb-3">
+    + Add New Card
+  </a>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Card #</th>
+        <th>Owner</th>
+        <th>Type</th>
+        <th>Billing Address</th>
+        <th>Expires</th>
+        <th>Customer</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for card in cards %}
+      <tr>
+        <td>{{ card.CCNumber }}</td>
+        <td>{{ card.OwnerName }}</td>
+        <td>{{ card.CCType }}</td>
+        <td>{{ card.BillingAddress }}</td>
+        <td>{{ card.ExpDate }}</td>
+        <td>
+          {% if card.StoredCardCID %}
+            <a href="{{ url_for('edit_customer', cid=card.StoredCardCID) }}">
+              {{ card.StoredCardCID }}
+            </a>
+          {% else %}
+            &mdash;
+          {% endif %}
+        </td>
+        <td>
+          <div style="display:flex; gap:0.25rem; align-items:center;">
+
+            <!-- Edit button -->
+            <a href="{{ url_for('edit_card', ccnumber=card.CCNumber) }}"
+               class="btn btn-sm btn-secondary">
+              Edit
+            </a>
+
+            <!-- History button -->
+            <a href="{{ url_for('card_history', ccnumber=card.CCNumber) }}"
+               class="btn btn-sm btn-info">
+              History
+            </a>
+
+            <!-- Delete button -->
+            <form action="{{ url_for('delete_card', ccnumber=card.CCNumber) }}"
+                  method="post" style="margin:0;">
+              <button type="submit"
+                      class="btn btn-sm btn-danger"
+                      onclick="return confirm('Delete card {{ card.CCNumber }}?');">
+                Delete
+              </button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="7" class="text-center">No credit cards found.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

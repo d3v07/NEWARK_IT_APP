@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Edit Transaction {{ tx.BID }} – Newark IT{% endblock %}
+
+{% block content %}
+  <h1>Edit Transaction {{ tx.BID }}</h1>
+
+  <form method="post">
+    <label>Shipping Address:</label>
+    <select name="saname">
+      {% for sa in addresses %}
+        <option value="{{ sa }}"
+                {% if sa == tx.SAName %}selected{% endif %}>
+          {{ sa }}
+        </option>
+      {% endfor %}
+    </select>
+
+    <label>Credit Card:</label>
+    <select name="ccnumber">
+      {% for c in cards %}
+        <option value="{{ c.CCNumber }}"
+                {% if c.CCNumber == tx.CCNumber %}selected{% endif %}>
+          {{ c.CCNumber }} ({{ c.CCType }})
+        </option>
+      {% endfor %}
+    </select>
+
+    <label>Status:</label>
+    <select name="ttag">
+      <option value="not-delivered"
+              {% if tx.TTag == 'not-delivered' %}selected{% endif %}>
+        not-delivered
+      </option>
+      <option value="delivered"
+              {% if tx.TTag == 'delivered' %}selected{% endif %}>
+        delivered
+      </option>
+    </select>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a href="{{ url_for('list_transactions') }}" class="btn btn-link">Cancel</a>
+  </form>
+{% endblock %}

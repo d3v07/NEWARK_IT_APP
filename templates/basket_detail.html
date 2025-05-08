@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}Basket {{basket.BID}} – Newark IT{% endblock %}
+{% block content %}
+  <h1>
+    Basket #{{basket.BID}}
+    for {{basket.FName}} {{basket.LName}}
+    (status: {{basket.Status}})
+  </h1>
+
+  <h2>Items</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Product</th><th>Qty</th><th>Price</th><th>Subtotal</th><th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for it in items %}
+      <tr>
+        <td>{{it.PName}}</td>
+        <td>{{it.Quantity}}</td>
+        <td>${{ '%.2f'|format(it.PriceSold) }}</td>
+        <td>${{ '%.2f'|format(it.Quantity*it.PriceSold) }}</td>
+        <td>
+          <a href="{{ url_for('edit_basket_item', bid=basket.BID, pid=it.PID) }}">
+            Edit
+          </a>
+          <form action="{{ url_for('delete_basket_item', bid=basket.BID, pid=it.PID) }}"
+                method="post" style="display:inline">
+            <button type="submit">Remove</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+      {% if not items %}
+      <tr><td colspan="5"><em>No items yet.</em></td></tr>
+      {% endif %}
+    </tbody>
+  </table>
+
+  <h3>Total: ${{ '%.2f'|format(total) }}</h3>
+
+  <h2>Add Item</h2>
+  <form method="post" action="{{ url_for('add_basket_item', bid=basket.BID) }}">
+    <label>
+      Product:
+      <select name="pid" required>
+        {% for p in products %}
+        <option value="{{p.PID}}">{{p.PName}}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>
+      Quantity:
+      <input type="number" name="quantity" value="1" min="1" required>
+    </label>
+    <button type="submit">Add</button>
+  </form>
+
+  <p>
+    <a href="{{ url_for('list_baskets') }}">← Back to all baskets</a>
+  </p>
+{% endblock %}

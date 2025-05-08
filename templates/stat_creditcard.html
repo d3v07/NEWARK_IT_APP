@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Total per Card – Newark IT Store{% endblock %}
+
+{% block content %}
+  <h1>Total Amount Charged per Credit Card</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Card #</th>
+        <th>Total Charged</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in results %}
+      <tr>
+        <td>{{ r.CCNumber }}</td>
+        <td>{{ "%.2f"|format(r.total_charged) }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

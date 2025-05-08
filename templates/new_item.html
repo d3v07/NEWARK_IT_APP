@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}Add Item – Newark IT Store{% endblock %}
+{% block content %}
+  <h1>Add Item to Basket {{ bid }}</h1>
+  <form method="post" action="{{ url_for('new_item', bid=bid) }}">
+    {% if not cid %}
+      <label>Customer ID:<br/>
+        <input type="number" name="cid" required />
+      </label><br/>
+    {% else %}
+      <input type="hidden" name="cid" value="{{ cid }}" />
+    {% endif %}
+    <!-- existing product, quantity, price fields… -->
+    <button type="submit" class="btn">Add to Basket</button>
+  </form>
+{% endblock %}

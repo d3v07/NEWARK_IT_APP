@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Baskets – Newark IT{% endblock %}
+{% block content %}
+  <h1>All Baskets</h1>
+  <button class="btn" onclick="location.href='{{ url_for('new_basket') }}'">
+    New Basket
+  </button>
+  <table>
+    <thead>
+      <tr>
+        <th>BID</th>
+        <th>Customer</th>
+        <th>Total</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for b in baskets %}
+      <tr>
+        <td>{{ b.BID }}</td>
+        <td>{{ b.FName }} {{ b.LName }}</td>
+        <td>${{ '%.2f'|format(b.Total) }}</td>
+        <td>
+          <a href="{{ url_for('view_basket', bid=b.BID) }}" class="btn">View</a>
+          <a href="{{ url_for('new_transaction') }}?bid={{ b.BID }}" class="btn">Place Order</a>
+          <form action="{{ url_for('delete_basket', bid=b.BID) }}"
+                method="post" style="display:inline">
+            <button type="submit" class="btn">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

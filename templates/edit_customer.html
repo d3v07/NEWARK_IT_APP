@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Customer – Newark IT{% endblock %}
+
+{% block content %}
+  <h1>Edit Customer {{ customer.CID }} – {{ customer.FName }} {{ customer.LName }}</h1>
+
+  <form method="post">
+    <fieldset>
+      <legend>Personal Info</legend>
+      <label>First Name</label>
+      <input type="text" name="fname" value="{{ customer.FName }}" required>
+
+      <label>Last Name</label>
+      <input type="text" name="lname" value="{{ customer.LName }}" required>
+
+      <label>Email</label>
+      <input type="email" name="email" value="{{ customer.Email }}" required>
+
+      <label>Phone</label>
+      <input type="text" name="phone" value="{{ customer.Phone }}" required>
+
+      <label>Status</label>
+      <select name="status">
+        {% for s in ['regular','silver','gold','platinum'] %}
+          <option value="{{ s }}"
+            {% if s == customer.Status %}selected{% endif %}>
+            {{ s.title() }}
+          </option>
+        {% endfor %}
+      </select>
+    </fieldset>
+
+    <fieldset>
+      <legend>Home Address (“Home”)</legend>
+      <label>Street name</label>
+      <input type="text" name="street" value="{{ addr.Street }}" required>
+
+      <label>Street number</label>
+      <input type="text" name="number" value="{{ addr.SNumber }}" required>
+
+      <label>City</label>
+      <input type="text" name="city" value="{{ addr.City }}" required>
+
+      <label>ZIP</label>
+      <input type="text" name="zip" value="{{ addr.Zip }}" required>
+
+      <label>State</label>
+      <input type="text" name="state" value="{{ addr.State }}" required>
+
+      <label>Country</label>
+      <input type="text" name="country" value="{{ addr.Country }}" required>
+
+      <label>Recipient</label>
+      <input type="text" name="recipient" value="{{ addr.RecepientName }}" required>
+
+      <!-- THIS is the one that *must* match your Flask field: -->
+      <label>Shipping Label</label>
+      <input type="text" name="sa_name" value="{{ addr.SAName }}" required>
+    </fieldset>
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a href="{{ url_for('list_customers') }}" class="btn btn-secondary">Cancel</a>
+  </form>
+{% endblock %}

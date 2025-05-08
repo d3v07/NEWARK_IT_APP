@@ -1,7 +1,7 @@
 # DMSD FINAL PROJECT
 
 
-## We built the Newark‐IT application as a classic Flask+MySQL CRUD system, organized into four major modules—Customer Management, Online Sales (Baskets & Orders), Transaction History, and Sales Statistics—plus a simple login/role layer for “admin” vs. “customer” views.
+## We built the Newark‐IT application as a classic Flask+MySQL CRUD system, organized into four major modules—Customer Management, Online Sales (Baskets & Orders), Transaction History, and Sales Statistics.
 
 1. Customer Management: A single customers.html template drives list, create, edit and delete flows. New customer IDs are auto‐incremented and we automatically assign each a default shipping label of Home_<CID>. On the customer detail page you can add/edit/delete shipping addresses and credit cards inline; deleting a customer cascades through baskets and orders, while stored cards are nulled out for audit.
 

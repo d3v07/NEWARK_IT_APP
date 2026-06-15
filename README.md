@@ -97,7 +97,11 @@ requirements.txt    Python runtime dependencies
 | Image | Caption |
 |---|---|
 | ![Newark IT dashboard](docs/screenshots/newark-it-dashboard.png) | Dashboard home with operator workflow cards and inventory of core store operations. |
-| ![Seeded customer list](docs/screenshots/newark-it-customers.png) | Seeded customer list screen showing seeded records and CRUD route coverage. |
+| ![Newark IT customers](docs/screenshots/newark-it-customers.png) | Seeded customer list screen showing customer records, address/card links, and CRUD actions. |
+| ![Newark IT baskets](docs/screenshots/newark-it-baskets.png) | Basket management page with seeded shopping baskets, totals, and item-management entry points. |
+| ![Newark IT transactions](docs/screenshots/newark-it-transactions.png) | Transaction history view with order data, filters, and edit/delete workflow actions. |
+| ![Newark IT statistics](docs/screenshots/newark-it-statistics.png) | Statistics hub with report cards for customer, product, and basket analytics. |
+| ![Newark IT top customers report](docs/screenshots/newark-it-top-customers-report.png) | Top customers report generated from the seeded transaction data in local MySQL. |
 
 ## Run Locally
 

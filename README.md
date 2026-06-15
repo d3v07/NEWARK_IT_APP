@@ -12,7 +12,7 @@ Newark IT Store is a database-backed CRUD application built around a normalized 
 - [Feature Map](#feature-map)
 - [Tech Stack](#tech-stack)
 - [Repository Map](#repository-map)
-- [Screenshots](#screenshots)
+- [Screenshot Gallery](#screenshot-gallery)
 - [Run Locally](#run-locally)
 - [Verification](#verification)
 - [Configuration](#configuration)
@@ -92,11 +92,12 @@ docker-compose.yml  Local seeded MySQL service
 requirements.txt    Python runtime dependencies
 ```
 
-## Screenshots
+## Screenshot Gallery
 
-![Newark IT dashboard](docs/screenshots/newark-it-dashboard.png)
-
-![Seeded customer list](docs/screenshots/newark-it-customers.png)
+| Image | Caption |
+|---|---|
+| ![Newark IT dashboard](docs/screenshots/newark-it-dashboard.png) | Dashboard home with operator workflow cards and inventory of core store operations. |
+| ![Seeded customer list](docs/screenshots/newark-it-customers.png) | Seeded customer list screen showing seeded records and CRUD route coverage. |
 
 ## Run Locally
 

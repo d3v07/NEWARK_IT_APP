@@ -1,0 +1,15 @@
+services:
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: newarkit-local
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./Project_Schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./Project_Data.sql:/docker-entrypoint-initdb.d/02-data.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-pnewarkit-local"]
+      interval: 5s
+      timeout: 5s
+      retries: 20

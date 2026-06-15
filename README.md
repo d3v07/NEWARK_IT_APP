@@ -1,32 +1,161 @@
-# DMSD FINAL PROJECT
+# Newark IT Store
 
+Classic Flask and MySQL retail management system for customer records, baskets, orders, transaction history, and sales statistics.
 
-## We built the Newark‐IT application as a classic Flask+MySQL CRUD system, organized into four major modules—Customer Management, Online Sales (Baskets & Orders), Transaction History, and Sales Statistics.
+Newark IT Store is a database-backed CRUD application built around a normalized store schema. It supports customer/address/card management, basket editing, order placement with offer pricing, transaction filtering, and date-range statistics reports.
 
-1. Customer Management: A single customers.html template drives list, create, edit and delete flows. New customer IDs are auto‐incremented and we automatically assign each a default shipping label of Home_<CID>. On the customer detail page you can add/edit/delete shipping addresses and credit cards inline; deleting a customer cascades through baskets and orders, while stored cards are nulled out for audit.
+## Contents
 
-2. Online Sales: We maintain a Basket table and an Appears_In join table for basket items. From the basket list you can create a new basket for any customer, adjust quantities or remove items, and then click Place Order. That takes you to a “New Transaction” form which—by filtering on the selected basket’s CID—shows only that customer’s shipping labels and stored cards, plus an inline “add new card” option. On submission we recalculate each line’s PriceSold (applying special offer pricing for gold/platinum customers), insert the Transaction row (with TotalAmount), decrement stock in Product.PQuantity, and redirect to the transaction list.
+- [At A Glance](#at-a-glance)
+- [Core Workflows](#core-workflows)
+- [Architecture](#architecture)
+- [Feature Map](#feature-map)
+- [Tech Stack](#tech-stack)
+- [Repository Map](#repository-map)
+- [Screenshots](#screenshots)
+- [Run Locally](#run-locally)
+- [Verification](#verification)
+- [Configuration](#configuration)
+- [Status](#status)
+- [License](#license)
 
-3. Transaction History: The transactions.html listing supports filtering by customer name, product name, or date range, and includes side-by-side Edit/Delete buttons. Editing lets you swap a shipping label or stored card and toggle delivered/not-delivered; deleting simply removes the row. We added “Customer History” and “Card History” links on the customer and card detail pages, respectively, so you can drill down to see exactly which orders a given customer placed or which baskets used a specific card.
+## At A Glance
 
-4. Sales Statistics: A lightweight “Statistics” interface runs six parameterized reports—total charged per card, top-10 customers, most-sold products, distinct-customer counts, max-basket totals per card, and average price per category—each over a user-supplied date range.
+| Area | Details |
+|---|---|
+| Product | Retail database management app |
+| Users | Store operators managing customers, baskets, orders, and reports |
+| Core value | Demonstrates full CRUD and reporting over a relational MySQL schema |
+| Backend | Flask, mysql-connector-python |
+| Frontend | Jinja templates, static assets |
+| Database | MySQL schema and seed data scripts |
+| Security cleanup | DB password now comes from environment variables, not source code |
 
-II.  Problems Faced & Solutions
+## Core Workflows
 
-1. Foreign-Key Cascades & Orphans
-Early on we discovered that deleting a customer left orphaned credit-card rows. Switching the Credit_Card.StoredCardCID FK to ON DELETE SET NULL resolved it, but we had to write a one-off cleanup script to scrub existing orphans before deploying the new constraint.
+```mermaid
+flowchart LR
+  A["Operator manages customers"] --> B["Adds addresses and stored cards"]
+  B --> C["Creates basket"]
+  C --> D["Adds products and quantities"]
+  D --> E["Places order"]
+  E --> F["Transaction records update"]
+  F --> G["Sales statistics reports read transaction data"]
+```
 
-2. Dynamic Pricing Logic
-Implementing “gold/platinum offer pricing” in Python against two tables (Offer_Product vs. Product) introduced subtle bugs whenever a product had no active offer. We ultimately refactored into a single loop in the new_transaction route that: fetches the customer’s status, pulls basket items, deletes and re-inserts them with the correct PriceSold, then computes the total.
+## Architecture
 
-3. Filtering & Scoped Lookups
-The transaction filters originally fetched every shipping label and card in the DB, not scoped to the chosen basket’s customer. We fixed this by passing the selected bid back into the GET parameters and adding WHERE CID = (SELECT CID FROM Basket WHERE BID=…) clauses so that only the relevant addresses/cards appear.
+```mermaid
+flowchart TD
+  BROWSER["Browser"] --> FLASK["Flask app.py"]
+  FLASK --> TPL["Jinja templates"]
+  FLASK --> DB["MySQL database"]
+  DB --> CUSTOMER["Customer, address, card tables"]
+  DB --> SALES["Basket, Appears_In, Transaction tables"]
+  DB --> PRODUCT["Product and offer tables"]
+  FLASK --> STATIC["static assets"]
+  TPL --> PAGES["Customers, baskets, transactions, statistics pages"]
+```
 
-4. Template Layout & Button Alignment
-Getting the Edit/Delete buttons to sit neatly side-by-side took several rounds of tweaking inline CSS (display:flex; gap:…) and switching from <a>+<button> to a unified flex container with margin resets.
+## Feature Map
 
-5. Race Conditions on Stock Updates
-In high-concurrency scenarios, two users placing orders on the same product could oversell. We addressed this by wrapping the stock-decrement UPDATE in the same transaction as the inserts and committing at the end, which at least guarantees atomicity; a future improvement would be explicit row-locking or SELECT … FOR UPDATE.
+| Feature | Evidence in repo |
+|---|---|
+| Customer CRUD | `templates/customers.html`, `new_customer.html`, `edit_customer.html` |
+| Address/card management | `templates/addresses.html`, `cards.html`, edit/new templates |
+| Basket workflow | `templates/baskets.html`, `basket_detail.html`, `new_basket.html` |
+| Order placement | `templates/new_transaction.html`, `transactions.html` |
+| Customer/card history | `templates/customer_history.html`, `card_history.html` |
+| Statistics reports | `templates/stat_*.html`, `statistics.html` |
+| Schema and seed data | `Project_Schema.sql`, `Project_Data.sql` |
 
-6. Rollback & Reversibility
-Because you asked to be able to revert features, we kept all new routes and template fragments isolated—nothing overwrote core routes—and documented every change so you can drop or rename the added endpoints without touching the original project.
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Web | Flask |
+| Templates | Jinja2 |
+| Database | MySQL |
+| Driver | mysql-connector-python |
+| Assets | Static PNG/CSS assets |
+
+## Repository Map
+
+```text
+app.py              Flask routes and database access
+templates/          Jinja views for CRUD and reporting
+static/             Image assets
+Project_Schema.sql  Database schema
+Project_Data.sql    Seed data
+.env.example        Local DB configuration example
+docker-compose.yml  Local seeded MySQL service
+requirements.txt    Python runtime dependencies
+```
+
+## Screenshots
+
+![Newark IT dashboard](docs/screenshots/newark-it-dashboard.png)
+
+![Seeded customer list](docs/screenshots/newark-it-customers.png)
+
+## Run Locally
+
+Start the seeded local MySQL database:
+
+```bash
+docker compose up -d
+```
+
+Configure environment variables:
+
+```bash
+cp .env.example .env
+export MYSQL_HOST=127.0.0.1
+export MYSQL_USER=root
+export MYSQL_PASSWORD=newarkit-local
+export MYSQL_DATABASE="Newark IT store"
+export MYSQL_PORT=3307
+```
+
+Run the app:
+
+```bash
+python3 -m pip install -r requirements.txt
+python3 app.py
+```
+
+## Verification
+
+Local verification:
+
+| Command | Result |
+|---|---|
+| `python3 -m py_compile app.py` | Passed |
+| `docker compose up -d` | Passed; MySQL 8 initialized with schema and seed scripts |
+| SQL row count check | Passed: 50 customers, 11 products, 50 transactions |
+| Browser route check `/` | Passed: dashboard rendered 6 workflow cards |
+| Browser route check `/customers` | Passed: 50 seeded customer rows rendered |
+
+Screenshots were captured from the running Flask app backed by the seeded Compose database.
+
+## Configuration
+
+`app.py` reads database settings from environment variables:
+
+```bash
+MYSQL_HOST=127.0.0.1
+MYSQL_USER=root
+MYSQL_PASSWORD=
+MYSQL_DATABASE=Newark IT store
+MYSQL_PORT=3307
+```
+
+Do not commit real database credentials.
+
+## Status
+
+This is a presentable database CRUD project after credential cleanup, seed-script repair, local Compose setup, and browser-verified screenshots.
+
+## License
+
+MIT. See [LICENSE](LICENSE).

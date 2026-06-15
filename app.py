@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, request, redirect, url_for
 import mysql.connector
 from datetime import datetime
@@ -6,11 +7,11 @@ app = Flask(__name__)
 
 def get_db_connection():
     return mysql.connector.connect(
-        host='127.0.0.1',
-        user='root',
-        password='devtrivedi',
-        database='Newark IT store',
-        port=3307
+        host=os.environ.get('MYSQL_HOST', '127.0.0.1'),
+        user=os.environ.get('MYSQL_USER', 'root'),
+        password=os.environ.get('MYSQL_PASSWORD', ''),
+        database=os.environ.get('MYSQL_DATABASE', 'Newark IT store'),
+        port=int(os.environ.get('MYSQL_PORT', '3307'))
     )
 
 @app.route('/')
